@@ -1,8 +1,8 @@
-name: Weekly Blog Generator
+name: Weekly Blog & Newsletter
 
 on:
   schedule:
-    - cron: "0 9 * * 1" # Every Monday 9am
+    - cron: "0 8 * * 1" # Monday 8am
   workflow_dispatch:
 
 jobs:
@@ -11,16 +11,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Generate blog post
+      - name: Generate post
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          python scripts/generate_post.py
+          python scripts/generate_blog.py
 
-      - name: Commit and push
+      - name: Commit post
         run: |
-          git config user.name "auto-blog-bot"
-          git config user.email "bot@github.com"
+          git config user.name "blog-bot"
+          git config user.email "blog@github.com"
           git add .
           git commit -m "Weekly blog post"
           git push
